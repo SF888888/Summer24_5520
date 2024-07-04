@@ -1,10 +1,13 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function Header() {
+const Header = ({ name }) => {
+  console.log(name);
   return (
     <View>
-      <Text>Header</Text>
+      <Text>Welcome to {name}</Text>
     </View>
-  )
-}
+  );
+};
+
+export default Header;
