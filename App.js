@@ -11,12 +11,7 @@ export default function App() {
       <Header name={appName} >
         <Text>Header children</Text>
       </Header>
-      <TextInput
-      style={{height: 40}}
-      onChangeText={newText => setText(newText)}
-      value={text}
-    />
-    <Text>{text}</Text>
+      <Input/>
       <StatusBar style="auto" />
     </View>
   );
