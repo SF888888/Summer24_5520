@@ -18,6 +18,7 @@ const Input = ({inputHandler}, {isModalVisible}) => {
         <Modal animationType="slide" visible ={isModalVisible}>
             <View style={styles.container}>
                 <TextInput
+                ref={inputRef}
                 style={{height: 40}}
                 onChangeText={newText => {setText(newText)
                     setIsSubmitted(false)
@@ -45,7 +46,6 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         width: '80%',
-        marginBottom: 10,
         padding: 10,
       },
     buttonSteyle:{
