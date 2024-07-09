@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, Modal } from 'react-native'
+import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 
 const Input = ({inputHandler}, {isModalVisible}) => {
@@ -15,8 +15,8 @@ const Input = ({inputHandler}, {isModalVisible}) => {
         inputRef.current.focus();
     }, []);
     return (
-        <Modal animationType="slide" visiblility={isModalVisible}>
-            <View>
+        <Modal animationType="slide" visible ={isModalVisible}>
+            <View style={styles.container}>
                 <TextInput
                 style={{height: 40}}
                 onChangeText={newText => {setText(newText)
@@ -40,6 +40,18 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        width: '80%',
+        marginBottom: 10,
+        padding: 10,
+      },
+    buttonSteyle:{
+        width: "30%",
+        margin:5,
+    }
   });
 
 export default Input;
