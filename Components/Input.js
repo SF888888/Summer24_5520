@@ -1,9 +1,12 @@
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, Button } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 
 const Input = () => {
     const[text, setText] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
+    function handleConfirm(){
+        console.log('Submitted:', text);
+    }
     const inputRef = useRef(null);
     // Focus the TextInput when the component mounts
     useEffect(() => {
@@ -21,6 +24,7 @@ const Input = () => {
         />
         <Text>{text}</Text>
         {isSubmitted && text && <Text>Thank you</Text>}
+        <Button title = "Submit" onPress={() => {handleConfirm();}} />
         </View>
     )
 }
