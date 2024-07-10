@@ -26,7 +26,7 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
                 />
                 <Image
                     style={styles.image}
-                    source={{uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png'}}
+                    source={require('./2617812.png')}
                     alt="Image 2"
                 />
                 <TextInput
