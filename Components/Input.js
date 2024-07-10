@@ -1,7 +1,7 @@
 import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 
-const Input = ({inputHandler}, {isModalVisible}) => {
+const Input = ({inputHandler}, {isModalVisible}, {onCancel}) => {
     const[text, setText] = useState('');
     const[isSubmitted, setIsSubmitted] = useState(false);
     function handleConfirm(){
@@ -28,7 +28,12 @@ const Input = ({inputHandler}, {isModalVisible}) => {
                 />
                 <Text>{text}</Text>
                 {isSubmitted && text && <Text>Thank you</Text>}
-                <Button title = "Submit" onPress={() => {handleConfirm();}} />
+                <View style={styles.buttonStyle}>
+                    <Button title = "Submit" onPress={() => {handleConfirm();}} />
+                </View>
+                <View style={styles.buttonStyle}>
+                    <Button title = "Cancel" onPress={onCancel} />
+                </View>
             </View>
         </Modal>
     )
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
         width: '80%',
         padding: 10,
       },
-    buttonSteyle:{
+    buttonStyle:{
         width: "30%",
         margin:5,
     }
