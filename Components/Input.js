@@ -30,8 +30,6 @@ const Input = ({inputHandler}, {isModalVisible}, {onCancel}) => {
                 {isSubmitted && text && <Text>Thank you</Text>}
                 <View style={styles.buttonStyle}>
                     <Button title = "Submit" onPress={() => {handleConfirm();}} />
-                </View>
-                <View style={styles.buttonStyle}>
                     <Button title = "Cancel" onPress={onCancel} />
                 </View>
             </View>
@@ -54,6 +52,8 @@ const styles = StyleSheet.create({
         padding: 10,
       },
     buttonStyle:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         width: "30%",
         margin:5,
     }
