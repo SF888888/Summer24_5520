@@ -13,13 +13,16 @@ export default function App() {
     setReceivedText(data);
     setModalVisible(false);
   }
+  function handleCancel() {
+    setModalVisible(false);
+  }
   return (
     <View style={styles.container}>
       {/* use a prop to pass appName to Header */}
       <Header name={appName} >
         <Text>Header children</Text>
       </Header>
-      <Input inputHandler={handleInputData} isModalVisible={modalVisible}/>
+      <Input inputHandler={handleInputData} isModalVisible={modalVisible} onCancel={handleCancel}/>
       <View style={styles.topContainer}>
       <Text>{receivedText}</Text>
       </View>

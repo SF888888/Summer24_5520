@@ -29,8 +29,8 @@ const Input = ({inputHandler}, {isModalVisible}, {onCancel}) => {
                 <Text>{text}</Text>
                 {isSubmitted && text && <Text>Thank you</Text>}
                 <View style={styles.buttonStyle}>
-                    <Button title = "Submit" onPress={() => {handleConfirm();}} />
-                    <Button title = "Cancel" onPress={onCancel} />
+                    <Button title = "Confirm" onPress={handleConfirm} disabled={!text} />
+                    <Button title = "Cancel" onPress={() => {onCancel(); setText('');}} />
                 </View>
             </View>
         </Modal>
