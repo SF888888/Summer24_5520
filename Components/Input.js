@@ -1,19 +1,21 @@
-import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native'
+import { View, Text, TextInput, Button, Modal, StyleSheet, Image } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 
-const Input = ({inputHandler}, {isModalVisible}, {onCancel}) => {
+const Input = ({ inputHandler, isModalVisible, onCancel }) => {
     const[text, setText] = useState('');
     const[isSubmitted, setIsSubmitted] = useState(false);
     function handleConfirm(){
         console.log('user typed', text);
-        //cal the received prop callback fn
+        //call the received prop callback fn
         inputHandler(text);
     }
     const inputRef = useRef(null);
     // Focus the TextInput when the component mounts
     useEffect(() => {
-        inputRef.current.focus();
-    }, []);
+        if (isModalVisible && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [isModalVisible]);
     return (
         <Modal animationType="slide" visible ={isModalVisible}>
             <View style={styles.container}>
@@ -29,7 +31,7 @@ const Input = ({inputHandler}, {isModalVisible}, {onCancel}) => {
                 />
                 <TextInput
                 ref={inputRef}
-                style={{height: 40}}
+                style={styles.input}
                 onChangeText={newText => {setText(newText)
                     setIsSubmitted(false)
                 }}
@@ -49,24 +51,30 @@ const Input = ({inputHandler}, {isModalVisible}, {onCancel}) => {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 2,
       backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
+      paddingTop: '20%',
     },
     input: {
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
         width: '80%',
-        padding: 10,
+        padding: 5,
       },
     buttonStyle:{
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         width: "30%",
-        margin:5,
-    }
+        margin:15,
+    },
+    image: {
+        width: 100,
+        height: 100,
+        margin: 25,
+    },
   });
 
 export default Input;

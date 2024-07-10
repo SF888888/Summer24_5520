@@ -19,15 +19,15 @@ export default function App() {
   return (
     <View style={styles.container}>
       {/* use a prop to pass appName to Header */}
-      <Header name={appName} >
-        <Text>Header children</Text>
-      </Header>
       <Input inputHandler={handleInputData} isModalVisible={modalVisible} onCancel={handleCancel}/>
       <View style={styles.topContainer}>
+      <Header name={appName} >
+        <Text></Text>
+      </Header>
       <Text>{receivedText}</Text>
+      <Button title="Add a goal" onPress={()=>setModalVisible(true)}/>
       </View>
       <StatusBar style="auto" />
-      <Button title="Add a goal" onPress={()=>setModalVisible(true)}/>
     </View>
   );
 }
