@@ -20,6 +20,16 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
     return (
         <Modal animationType="slide" visible ={isModalVisible}>
             <View style={styles.container}>
+            <Image
+                style={styles.image}
+                source={{uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png'}}
+                alt="Image 1"
+            />
+            <Image
+                style={styles.image}
+                source={require('./2617812.png')}
+                alt="Image 2"
+            />
                 <TextInput
                 ref={inputRef}
                 style={styles.input}

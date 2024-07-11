@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
+import GoalItem from './Components/goalItem';
 
 export default function App() {
   const appName = 'Summer 2024 class';
@@ -40,13 +41,11 @@ export default function App() {
         ) : (
           <>
             <FlatList
-              data={goals}
               renderItem={({ item }) => {
-                return(<View style={styles.textContainer}>
-                  <Text style={styles.textStyle}>{item.text}</Text>
-                </View>)
+                return <GoalItem goal={item}/>;
               }
             }
+            data={goals}
             />
           </>
         )
