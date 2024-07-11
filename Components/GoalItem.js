@@ -1,4 +1,4 @@
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, Stylesheet } from 'react-native'
 import React from 'react'
 
 const GoalItem = ({goal, deleteHandler}) =>{
