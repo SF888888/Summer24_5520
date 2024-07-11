@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 
 export default function App() {
   const appName = 'Summer 2024 class';
-  const[receivedText, setReceivedText] = useState("");
+  //const[receivedText, setReceivedText] = useState("");
+  const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
   function handleInputData(data){
     console.log('call back', data);
-    setReceivedText(data);
+    const newGoal = [{text: data, id: Math.random()}];
+    //const newArray = [...goals, newGoal];
+    setGoals((currentGoals) => {
+      return [...currentGoals, newGoal];
+    });
+    //setReceivedText(data);
     setModalVisible(false);
   }
   function handleCancel() {
@@ -24,9 +30,17 @@ export default function App() {
       <Header name={appName} >
         <Text></Text>
       </Header>
-      <Text>{receivedText}</Text>
+      {goals.length === 4}
+      <ScrollView>
+      {goals.map((goalObj)=>{
+        console.log(goalObj); 
+        return <View styles= {styles.textContainer}>
+          <Text style={styles.textStyle}></Text>
+        </View>})}
+      </ScrollView>
       <Button title="Add a goal" onPress={()=>setModalVisible(true)}/>
       </View>
+      <View style={styles.bottomContainer}></View>
       <StatusBar style="auto" />
     </View>
   );
@@ -41,13 +55,15 @@ const styles = StyleSheet.create({
   },
   textStyle:{
     color:"darkmagenta",
+    marginVertical:5,
+    backgroundColor: 'lightgray',
   },
   topContainer:{
-    flex: 1,
+    flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  bottomContatiner:{
+  bottomContainer:{
     flex: 4,
     backgroundColor: '#dcd',
     alignItems: 'center',

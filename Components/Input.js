@@ -8,6 +8,7 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
         console.log('user typed', text);
         //call the received prop callback fn
         inputHandler(text);
+        setText(''); 
     }
     const inputRef = useRef(null);
     // Focus the TextInput when the component mounts
@@ -19,16 +20,6 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
     return (
         <Modal animationType="slide" visible ={isModalVisible}>
             <View style={styles.container}>
-            <Image
-                    style={styles.image}
-                    source={{uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png'}}
-                    alt="Image 1"
-                />
-                <Image
-                    style={styles.image}
-                    source={require('./2617812.png')}
-                    alt="Image 2"
-                />
                 <TextInput
                 ref={inputRef}
                 style={styles.input}
@@ -52,7 +43,7 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
 const styles = StyleSheet.create({
     container: {
       flex: 2,
-      backgroundColor: '#fff',
+      //backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'flex-start',
       paddingTop: '20%',
@@ -63,6 +54,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: '80%',
         padding: 5,
+        margin: 20,
       },
     buttonStyle:{
         flexDirection: 'row',
