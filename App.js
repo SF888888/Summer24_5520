@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-native';
 import Header from './Components/Header';
 import Input from './Components/Input';
 
@@ -23,27 +23,38 @@ export default function App() {
     setModalVisible(false);
   }
   return (
-    <View style={styles.container}>
-      {/* use a prop to pass appName to Header */}
-      <Input inputHandler={handleInputData} isModalVisible={modalVisible} onCancel={handleCancel}/>
-      <View style={styles.topContainer}>
+  <View style={styles.container}>
+    {/* use a prop to pass appName to Header */}
+    <Input inputHandler={handleInputData} isModalVisible={modalVisible} onCancel={handleCancel}/>
+    <View style={styles.topContainer}>
       <Header name={appName} >
         <Text></Text>
       </Header>
-      {goals.length === 4}
-      <ScrollView>
-      {goals.map((goalObj)=>{
-        console.log(goalObj); 
-        return <View styles= {styles.textContainer}>
-          <Text style={styles.textStyle}></Text>
-        </View>})}
-      </ScrollView>
+      
       <Button title="Add a goal" onPress={()=>setModalVisible(true)}/>
-      </View>
-      <View style={styles.bottomContainer}></View>
-      <StatusBar style="auto" />
     </View>
-  );
+    <View style={styles.bottomContainer}>
+    {
+        goals.length === 0 ? (
+          <Text>No goals yet</Text>
+        ) : (
+          <>
+            <FlatList
+              data={goals}
+              renderItem={({ item }) => {
+                return(<View style={styles.textContainer}>
+                  <Text style={styles.textStyle}>{item.text}</Text>
+                </View>)
+              }
+            }
+            />
+          </>
+        )
+      }
+    </View>
+    <StatusBar style="auto" />
+  </View>
+  )
 }
 
 const styles = StyleSheet.create({
