@@ -23,15 +23,14 @@ export default function App() {
   function handleCancel() {
     setModalVisible(false);
   }
-  function deleteHandler(){
-    console.log('goal deleted', deletedId);
-  }
-  function handleDeleteGoal(deletedId){
+  function deleteHandler(deletedId){
     console.log('goal deleted', deletedId);
     setGoals((currentGoals) => {
       return currentGoals.filter((goal) => goal.id !== deletedId);
     })
-    };
+  }
+  
+    
 
   return (
   <View style={styles.container}>
@@ -47,7 +46,7 @@ export default function App() {
     <View style={styles.bottomContainer}>
     {
         goals.length === 0 ? (
-          <Text>No goals yet</Text>
+          <Text>Please add your goal</Text>
         ) : (
           <>
             <FlatList
@@ -84,7 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomContainer:{
-    flex: 4,
+    flex: 6,
     backgroundColor: '#dcd',
     alignItems: 'center',
   },
