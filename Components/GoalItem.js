@@ -5,7 +5,7 @@ const GoalItem = ({goal, deleteHandler}) =>{
   return (
     <View style={styles.textContainer}>
         <Text style={styles.textStyle}>{goal.text}</Text>
-        <Button color="balck" title = "X" onPress={()=>deleteHandler(goal)}/>
+        <Button color="black" title = "X" onPress={()=>deleteHandler(goal.id)}/>
     </View>
   )
 }
@@ -14,9 +14,8 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 10,
     marginVertical: 15,
-    backgroundColor: '#aaa',
+    backgroundColor: '#aaaa',
     borderColor: 'darkmagenta',
-    padding: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 4,
@@ -24,7 +23,10 @@ const styles = StyleSheet.create({
   textStyle:{
     color:"darkmagenta",
     marginVertical:5,
-    backgroundColor: 'lightgray',
+    marginHorizontal: 20,
+    textAlign: 'center',
+    fontSize: 20,
+    //backgroundColor: 'lightgray',
   },
 });
 export default GoalItem;

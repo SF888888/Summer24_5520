@@ -12,7 +12,7 @@ export default function App() {
   const[modalVisible, setModalVisible] = useState(false);
   function handleInputData(data){
     console.log('call back', data);
-    const newGoal = [{text: data, id: Math.random()}];
+    const newGoal = {text: data, id: Math.random()};
     //const newArray = [...goals, newGoal];
     setGoals((currentGoals) => {
       return [...currentGoals, newGoal];
