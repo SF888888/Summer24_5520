@@ -15,7 +15,14 @@ export default function App() {
           title: 'All Goals', 
           headerStyle:{backgroundColor:'darkmagenta'}, 
           headerTintColor:'white'}}/>
-        <Stack.Screen name="GoalDetails" component={GoalDetails} />
+        <Stack.Screen name="GoalDetails" component={GoalDetails} 
+        options = {(data)=>{
+          return{title:router.params.goalObj.text,
+          headerRight:()=>{
+            return(
+              <Button title="Warning" onPress={()=>{console.log("warning")}}/>
+            )
+          }}}}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
