@@ -7,7 +7,7 @@ const GoalItem = ({goal, deleteHandler, pressHandler}) =>{
     <View style={styles.textContainer}>
         <Text style={styles.textStyle}>{goal.text}</Text>
         <Button color="black" title = "X" onPress={()=>deleteHandler(goal.id)}/>
-        <Button color="black" title = "I" onPress={()=>pressHandler()}/>
+        <Button color="black" title = "I" onPress={function(){pressHandler(goal)}}/>
     </View>
   )
 }

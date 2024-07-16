@@ -29,9 +29,9 @@ export default function Home() {
       return currentGoals.filter((goal) => goal.id !== deletedId);
     })
   }
-  function handlePressGoal(){
-    console.log('goal pressed');
-    navigator.navigate('GoalDetails');
+  function handlePressGoal(pressedGoal){
+    console.log('goal pressed', pressedGoal);
+    navigation.navigate('GoalDetails');
 }
     
 
@@ -54,7 +54,7 @@ export default function Home() {
           <>
             <FlatList
               renderItem={({ item }) => {
-                return <GoalItem goal={item} deleteHandler = {deleteHandler}/>;
+                return <GoalItem goal={item} deleteHandler = {deleteHandler} pressHandler={handlePressGoal}/>;
               }
             }
             data={goals}
