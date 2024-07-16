@@ -29,7 +29,10 @@ export default function Home() {
       return currentGoals.filter((goal) => goal.id !== deletedId);
     })
   }
-  
+  function handlePressGoal(){
+    console.log('goal pressed');
+    navigator.navigate('GoalDetails');
+}
     
 
   return (
