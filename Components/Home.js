@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-native';
 import Header from './Header';
 import Input from './Input';
-import GoalItem from './goalItem';
+import GoalItem from './GoalItem';
 
 export default function Home() {
   const appName = 'Summer 2024 class';
