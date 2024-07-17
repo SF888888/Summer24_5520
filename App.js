@@ -7,14 +7,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 console.log(Stack);
+
+const defaultScreenOptions = {
+  headerStyle: { backgroundColor: 'darkmagenta' },
+  headerTintColor: 'white',
+};
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
+      <Stack.Navigator initialRouteName='Home' screenOptions={defaultScreenOptions}>
         <Stack.Screen name="Home" component={Home} options={{
-          title: 'All Goals', 
-          headerStyle:{backgroundColor:'darkmagenta'}, 
-          headerTintColor:'white'}}/>
+          title: 'All Goals'}}/>
         <Stack.Screen 
           name="GoalDetails" 
           component={GoalDetails} 
