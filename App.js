@@ -24,9 +24,6 @@ export default function App() {
           component={GoalDetails} 
           options={({ route }) => ({
             title: route.params.goalObj.text, 
-            headerRight: () => (
-              <Button title="Warning" onPress={() => { console.log("warning") }} />
-            )
           })}
         />
       </Stack.Navigator>
