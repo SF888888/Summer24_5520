@@ -5,7 +5,7 @@ import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
 
-export default function Home() {
+export default function Home({navigation}) {
   const appName = 'Summer 2024 class';
   //const[receivedText, setReceivedText] = useState("");
   const[goals, setGoals] = useState([]);
@@ -31,8 +31,8 @@ export default function Home() {
   }
   function handlePressGoal(pressedGoal){
     console.log('goal pressed', pressedGoal);
-    navigation.navigate('GoalDetails');
-}
+    navigation.navigate('GoalDetails', { goalObj: pressedGoal });
+ }
     
 
   return (
