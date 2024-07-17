@@ -1,54 +1,30 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import Header from './Components/Header';
-import Input from './Components/Input';
+import { View, Text } from 'react-native'
+import React from 'react'
+import Home from './Components/Home'
+import GoalDetails from './Components/GoalDetails'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+const Stack = createNativeStackNavigator();
+console.log(Stack);
 export default function App() {
-  const appName = 'Summer 2024 class';
-  const[receivedText, setReceivedText] = useState("");
-  const[modalVisible, setModalVisible] = useState(false);
-  function handleInputData(data){
-    console.log('call back', data);
-    setReceivedText(data);
-    setModalVisible(false);
-  }
   return (
-    <View style={styles.container}>
-      {/* use a prop to pass appName to Header */}
-      <Header name={appName} >
-        <Text>Header children</Text>
-      </Header>
-      <Input inputHandler={handleInputData} isModalVisible={modalVisible}/>
-      <View style={styles.topContainer}>
-      <Text>{receivedText}</Text>
-      </View>
-      <StatusBar style="auto" />
-      <Button title="Add a goal" onPress={()=>setModalVisible(true)}/>
-    </View>
-  );
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Home'>
+        <Stack.Screen name="Home" component={Home} options={{
+          title: 'All Goals', 
+          headerStyle:{backgroundColor:'darkmagenta'}, 
+          headerTintColor:'white'}}/>
+        <Stack.Screen name="GoalDetails" component={GoalDetails} 
+        options = {(data)=>{
+          return{title:router.params.goalObj.text,
+          headerRight:()=>{
+            return(
+              <Button title="Warning" onPress={()=>{console.log("warning")}}/>
+            )
+          }}}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    //alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textStyle:{
-    color:"darkmagenta",
-  },
-  topContainer:{
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottomContatiner:{
-    flex: 4,
-    backgroundColor: '#dcd',
-    alignItems: 'center',
-  },
-
-  });
 
