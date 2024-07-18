@@ -4,6 +4,7 @@ import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-nati
 import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
+import PressableButton from './PressableButton';
 
 export default function Home({navigation}) {
   const appName = 'Summer 2024 class';
@@ -43,8 +44,12 @@ export default function Home({navigation}) {
       <Header name={appName} >
         <Text></Text>
       </Header>
-      
-      <Button title="Add a goal" onPress={()=>setModalVisible(true)}/>
+      <PressableButton
+      pressedFunction={()=>{setModalVisible(true)}}
+      componentStyle={styles.buttonStyle}>
+        <Text>Add a Goal</Text>
+      </PressableButton>
+      {/*<Button title="Add a goal" onPress={()=>setModalVisible(true)}/>*/}
     </View>
     <View style={styles.bottomContainer}>
     {
@@ -90,5 +95,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#dcd',
     alignItems: 'center',
   },
+  buttonStyle:{
+    borderRadius:4,
+    padding: 10,
+  }
 
   });
