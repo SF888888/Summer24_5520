@@ -1,5 +1,5 @@
 import { View, Text , Button} from 'react-native'
-import app from "./firebaseSetup";
+
 import React from 'react'
 import Home from './Components/Home'
 import GoalDetails from './Components/GoalDetails'

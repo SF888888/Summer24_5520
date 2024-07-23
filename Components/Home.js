@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-native';
 import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
+import writeToDB from '../Firebase/firestoreHelper';
+import { database } from '../Firebase/firebaseSetup';
 import PressableButton from './PressableButton';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 export default function Home({navigation}) {
   const appName = 'Summer 2024 class';
   //const[receivedText, setReceivedText] = useState("");
   const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
+  useEffect(() => { onSnapshot(collection(database, "goals"),(querySnapshot)=>{if(!querySnapshot.empty)
+    querySnapshot.forEach((docSnapshot)=>{console.log(docSnapshot.id);
+    newArray.push({...docSnapshot.data(), id:docSnapshot.id})});});},[]);
   function handleInputData(data){
     console.log('call back', data);
     const newGoal = {text: data, id: Math.random()};
@@ -18,6 +24,7 @@ export default function Home({navigation}) {
     setGoals((currentGoals) => {
       return [...currentGoals, newGoal];
     });
+    writeToDB()
     //setReceivedText(data);
     setModalVisible(false);
   }
