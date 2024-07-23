@@ -4,7 +4,7 @@ import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-nati
 import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
-import writeToDB from '../Firebase/firestoreHelper';
+import {writeToDB} from '../Firebase/firestoreHelper';
 import { database } from '../Firebase/firebaseSetup';
 import PressableButton from './PressableButton';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -14,17 +14,20 @@ export default function Home({navigation}) {
   //const[receivedText, setReceivedText] = useState("");
   const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
-  useEffect(() => { onSnapshot(collection(database, "goals"),(querySnapshot)=>{if(!querySnapshot.empty)
+  useEffect(() => { 
+    onSnapshot(collection(database, "goals"),(querySnapshot)=>{if(!querySnapshot.empty)
     querySnapshot.forEach((docSnapshot)=>{console.log(docSnapshot.id);
     newArray.push({...docSnapshot.data(), id:docSnapshot.id})});});},[]);
-  function handleInputData(data){
+  
+    
+ function handleInputData(data){
     console.log('call back', data);
     const newGoal = {text: data, id: Math.random()};
     //const newArray = [...goals, newGoal];
     setGoals((currentGoals) => {
       return [...currentGoals, newGoal];
     });
-    writeToDB()
+    writeToDB(newGoal, 'goals');
     //setReceivedText(data);
     setModalVisible(false);
   }
@@ -33,9 +36,7 @@ export default function Home({navigation}) {
   }
   function deleteHandler(deletedId){
     console.log('goal deleted', deletedId);
-    setGoals((currentGoals) => {
-      return currentGoals.filter((goal) => goal.id !== deletedId);
-    })
+    deletefromDB(deletedId, collectionName);
   }
   function handlePressGoal(pressedGoal){
     console.log('goal pressed', pressedGoal);
