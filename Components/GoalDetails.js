@@ -1,14 +1,21 @@
 import { View, Text, Button, StyleSheet } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
+import { updateGoalWarning } from '../Firebase/firestoreHelper';
 
 const GoalDetails = ({navigation, route}) => {
     console.log(route.params);
     const [warning, setWarning] = useState(false);
+    const handleWarningPress = async () => {
+      setWarning(true);
+      if (route.params && route.params.goalObj) {
+        await updateGoalWarning(route.params.goalObj.id);
+      }
+    };
     useLayoutEffect(() => {
         navigation.setOptions({
           title: warning ? 'Warning!' : route.params.goalObj.text,
           headerRight: () => (
-            <Button title="Warning" onPress={() => {setWarning(true);}}/>
+            <Button title="Warning" onPress={handleWarningPress}/>
           ),
         });
     }, [navigation, warning]);
