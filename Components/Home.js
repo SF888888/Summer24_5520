@@ -1,22 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-native';
 import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
+import {writeToDB} from '../Firebase/firestoreHelper';
+import { database } from '../Firebase/firebaseSetup';
+import PressableButton from './PressableButton';
+import { collection, onSnapshot } from 'firebase/firestore';
 
-export default function Home() {
+export default function Home({navigation}) {
   const appName = 'Summer 2024 class';
   //const[receivedText, setReceivedText] = useState("");
   const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
-  function handleInputData(data){
+  useEffect(() => { 
+    const unsubscribe = onSnapshot(collection(db, "goals"), (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const newArray = [];
+        querySnapshot.forEach((docSnapshot) => {
+          console.log(docSnapshot.id);
+          newArray.push({ ...docSnapshot.data(), id: docSnapshot.id });
+        });
+        setGoals(newArray);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+  
+    
+ function handleInputData(data){
     console.log('call back', data);
     const newGoal = {text: data, id: Math.random()};
     //const newArray = [...goals, newGoal];
     setGoals((currentGoals) => {
       return [...currentGoals, newGoal];
     });
+    writeToDB(newGoal, 'goals');
     //setReceivedText(data);
     setModalVisible(false);
   }
@@ -25,15 +45,12 @@ export default function Home() {
   }
   function deleteHandler(deletedId){
     console.log('goal deleted', deletedId);
-    setGoals((currentGoals) => {
-      return currentGoals.filter((goal) => goal.id !== deletedId);
-    })
+    deletefromDB(deletedId, collectionName);
   }
   function handlePressGoal(pressedGoal){
     console.log('goal pressed', pressedGoal);
-    navigation.navigate('GoalDetails');
-}
-    
+    navigation.navigate('GoalDetails', { goalObj: pressedGoal });
+ }
 
   return (
   <View style={styles.container}>
@@ -43,8 +60,12 @@ export default function Home() {
       <Header name={appName} >
         <Text></Text>
       </Header>
-      
-      <Button title="Add a goal" onPress={()=>setModalVisible(true)}/>
+      <PressableButton
+      pressedFunction={()=>{setModalVisible(true)}}
+      componentStyle={styles.buttonStyle}>
+        <Text>Add a Goal</Text>
+      </PressableButton>
+      {/*<Button title="Add a goal" onPress={()=>setModalVisible(true)}/>*/}
     </View>
     <View style={styles.bottomContainer}>
     {
@@ -90,5 +111,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#dcd',
     alignItems: 'center',
   },
+  buttonStyle:{
+    borderRadius:4,
+    padding: 10,
+  }
 
   });
