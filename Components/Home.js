@@ -51,7 +51,6 @@ export default function Home({navigation}) {
     console.log('goal pressed', pressedGoal);
     navigation.navigate('GoalDetails', { goalObj: pressedGoal });
  }
-    
 
   return (
   <View style={styles.container}>
