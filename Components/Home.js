@@ -15,9 +15,18 @@ export default function Home({navigation}) {
   const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
   useEffect(() => { 
-    onSnapshot(collection(database, "goals"),(querySnapshot)=>{if(!querySnapshot.empty)
-    querySnapshot.forEach((docSnapshot)=>{console.log(docSnapshot.id);
-    newArray.push({...docSnapshot.data(), id:docSnapshot.id})});});},[]);
+    const unsubscribe = onSnapshot(collection(db, "goals"), (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const newArray = [];
+        querySnapshot.forEach((docSnapshot) => {
+          console.log(docSnapshot.id);
+          newArray.push({ ...docSnapshot.data(), id: docSnapshot.id });
+        });
+        setGoals(newArray);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
   
     
  function handleInputData(data){
