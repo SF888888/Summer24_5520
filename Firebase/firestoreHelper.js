@@ -30,3 +30,18 @@ export async function updateGoalWarning(docId) {
       console.log("error updating goal warning", err);
     }
   }
+
+export async function readAllDocs(collectionName){
+    try{
+        const querySnapshot = await getDocs(collection(database, collectionName))
+        let newArray = [];
+        querySnapshot.forEach((docSnapshot) => {
+            console.log(docSnapshot.id);
+            newArray.push({ ...docSnapshot.data(), id: docSnapshot.id });
+          });
+        return newArray;
+    }
+    catch(err){
+        console.log('error reading all docs', err);
+    }
+}
