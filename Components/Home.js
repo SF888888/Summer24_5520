@@ -15,7 +15,7 @@ export default function Home({navigation}) {
   const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
   useEffect(() => { 
-    const unsubscribe = onSnapshot(collection(db, "goals"), (querySnapshot) => {
+    const unsubscribe = onSnapshot(collection(database, "goals"), (querySnapshot) => {
       if (!querySnapshot.empty) {
         const newArray = [];
         querySnapshot.forEach((docSnapshot) => {
