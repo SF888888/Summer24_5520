@@ -1,5 +1,6 @@
 import { View, Text, FlatList } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { writeToDB } from '../Firebase/firestoreHelper';
 
 const GoalUsers = () => {
   const [users, setUsers] = useState([]);
@@ -12,6 +13,9 @@ const GoalUsers = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
+        data.foreach((userData)=>{
+            writeToDB(userData, 'goals/' + id + '/users');
+        });
         setUsers(data); 
       } catch (error) {
         console.log('error fetching data', error);
