@@ -1,9 +1,9 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Button, StyleSheet, Alert  } from 'react-native'
+import React, {useState} from 'react'
 import TextInput from './TextInput'
 import Buttons from './Buttons'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../Firebase/firebase';
+import { auth } from '../Firebase/firebaseSetup';
 
 export default function Signup ({navigation}){
   const [email, setEmail] = useState('');
@@ -57,9 +57,17 @@ export default function Signup ({navigation}){
         onChangeText={setConfirmPassword}
         secureTextEntry
       />
-      <Buttons title="Register" onPress={handleSignup} />
-      <Buttons title="Already Registered? Login" onPress={handleLogin} />
+      <Button title="Register" onPress={handleSignup} />
+      <Button title="Already Registered? Login" onPress={handleLogin} />
     </View>
   );
 }
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
