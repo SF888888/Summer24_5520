@@ -17,6 +17,10 @@ const defaultScreenOptions = {
 export default function App() {
   return (
     <NavigationContainer>
+      <Stack.Navigator initialRouteName='Signup' screenOptions={defaultScreenOptions}>
+        <Stack.Screen name="Signup" component={Signup} options={{ title: 'Sign Up' }} />
+        <Stack.Screen name="Login" component={Login} options={{ title: 'Log In' }} />
+      </Stack.Navigator>
       <Stack.Navigator initialRouteName='Home' screenOptions={defaultScreenOptions}>
         <Stack.Screen name="Home" component={Home} options={{
           title: 'All Goals'}}/>
