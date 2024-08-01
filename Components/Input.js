@@ -1,5 +1,6 @@
 import { View, Text, TextInput, Button, Modal, StyleSheet, Image } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
+import ImageManager from './ImageManager'; 
 
 const Input = ({ inputHandler, isModalVisible, onCancel }) => {
     const[text, setText] = useState('');
@@ -42,6 +43,7 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
                 <Text>{text}</Text>
                 {isSubmitted && text && <Text>Thank you</Text>}
                 <View style={styles.buttonStyle}>
+                    <ImageManager />
                     <Button title = "Confirm" onPress={handleConfirm} disabled={!text} />
                     <Button title = "Cancel" onPress={() => {onCancel(); setText('');}} />
                 </View>

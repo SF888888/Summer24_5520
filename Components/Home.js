@@ -5,7 +5,7 @@ import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
 import {writeToDB} from '../Firebase/firestoreHelper';
-import { database } from '../Firebase/firebaseSetup';
+import { auth, database } from '../Firebase/firebaseSetup';
 import PressableButton from './PressableButton';
 import { collection, onSnapshot } from 'firebase/firestore';
 
@@ -15,7 +15,9 @@ export default function Home({navigation}) {
   const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
   useEffect(() => { 
-    const unsubscribe = onSnapshot(collection(database, "goals"), (querySnapshot) => {
+    const unsubscribe = onSnapshot(query(collection(database, "goals"),
+      where("owner", "==", auth.currentUser.uid)
+    ), (querySnapshot) => {
       if (!querySnapshot.empty) {
         const newArray = [];
         querySnapshot.forEach((docSnapshot) => {
@@ -23,6 +25,8 @@ export default function Home({navigation}) {
           newArray.push({ ...docSnapshot.data(), id: docSnapshot.id });
         });
         setGoals(newArray);
+      }(error) => {
+        console.log('Error reading all docs:', error);
       }
     });
     return () => unsubscribe();
@@ -31,7 +35,7 @@ export default function Home({navigation}) {
     
  function handleInputData(data){
     console.log('call back', data);
-    const newGoal = {text: data, id: Math.random()};
+    const newGoal = {text: data, owner:auth.currentUser,id: auth.currentUser.uid};
     //const newArray = [...goals, newGoal];
     setGoals((currentGoals) => {
       return [...currentGoals, newGoal];
