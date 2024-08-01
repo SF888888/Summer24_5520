@@ -16,7 +16,7 @@ export default function Home({navigation}) {
   const[modalVisible, setModalVisible] = useState(false);
   useEffect(() => { 
     const unsubscribe = onSnapshot(query(collection(database, "goals"),
-    where 
+      where("owner", "==", auth.currentUser.uid)
     ), (querySnapshot) => {
       if (!querySnapshot.empty) {
         const newArray = [];
@@ -25,6 +25,8 @@ export default function Home({navigation}) {
           newArray.push({ ...docSnapshot.data(), id: docSnapshot.id });
         });
         setGoals(newArray);
+      }(error) => {
+        console.log('Error reading all docs:', error);
       }
     });
     return () => unsubscribe();
