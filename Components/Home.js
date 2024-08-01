@@ -5,9 +5,9 @@ import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
 import {writeToDB} from '../Firebase/firestoreHelper';
-import { database } from '../Firebase/firebaseSetup';
+import { auth, database } from '../Firebase/firebaseSetup';
 import PressableButton from './PressableButton';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 export default function Home({navigation}) {
   const appName = 'Summer 2024 class';
