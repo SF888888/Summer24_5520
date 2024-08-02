@@ -25,6 +25,7 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
     return (
         <Modal animationType="slide" visible ={isModalVisible}>
             <View style={styles.container}>
+
             <Image
                 style={styles.image}
                 source={{uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png'}}
@@ -46,8 +47,8 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
                 />
                 <Text>{text}</Text>
                 {isSubmitted && text && <Text>Thank you</Text>}
-                <ImageManager />
-                <View style={styles.buttonStyle}>
+                <ImageManager imageUriHandler={imageUriHandler}/>
+                 <View style={styles.buttonStyle}>
                     <Button title = "Confirm" onPress={handleConfirm} disabled={!text} />
                     <Button title = "Cancel" onPress={() => {onCancel(); setText('');}} />
                 </View>

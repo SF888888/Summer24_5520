@@ -76,6 +76,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={defaultScreenOptions}>
        {isAuthenticated ? AppStack : AuthStack}
+      
       </Stack.Navigator>
     </NavigationContainer>
   )

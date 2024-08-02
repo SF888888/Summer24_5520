@@ -35,7 +35,7 @@ export default function Home({navigation}) {
     
  function handleInputData(data){
     console.log('call back', data);
-    const newGoal = {text: data, id: Math.random()};
+    const newGoal = {text: data, imageUri: data.imageUri, id: Math.random()};
     //const newArray = [...goals, newGoal];
     setGoals((currentGoals) => {
       return [...currentGoals, newGoal];

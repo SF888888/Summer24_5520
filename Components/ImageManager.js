@@ -6,6 +6,7 @@ const ImageManager = ({imageUriHandler}) => {
     const [status, requestPermission] = ImagePicker.useCameraPermissions();
     const [imageUri, setImageUri] = useState('');
     async function verifyPermission(){
+        const response = await ImagePicker.getCameraPermissionsAsync();
         console.log(response);
         if(response.granted){
             return true;
@@ -33,18 +34,18 @@ const ImageManager = ({imageUriHandler}) => {
         console.log(err);
     
     }
-
+    }
     return (
-        <View style={styles.container}>
-            <Button title="Open Camera" onPress={takeImageHandler} />
-            <Image source={{uri: imageUri}} style={styles.image} />
+        <View >
+             <Button title="Open Camera" onPress={takeImageHandler} />
+           {imageUri && <Image source={{uri: imageUri}} style={{width:200,height:200}} />}
         </View>
     );
-}};
+};
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        
         justifyContent: 'center',
         alignItems: 'center',
     },
