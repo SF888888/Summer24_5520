@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 const ImageManager = ({imageUriHandler}) => {
     const [status, requestPermission] = ImagePicker.useCameraPermissions();
     const [imageUri, setImageUri] = useState('');
+
     async function verifyPermission(){
         const response = await ImagePicker.getCameraPermissionsAsync();
         console.log(response);
@@ -22,7 +23,7 @@ const ImageManager = ({imageUriHandler}) => {
             Alert.alert('Permission required', 'You need to grant camera permission to use this app', [{text: 'Okay'}]);
             return;
         }
-        const result = await ImagePicker.requestCameraPermissionsAsync({allowsEditing:true});
+        const result = await ImagePicker.launchCameraAsync({allowsEditing:true});
         if (!result.canceled) {
             const uri = result.assets[0].uri; 
             setImageUri(result.assets[0].uri);
@@ -45,7 +46,6 @@ const ImageManager = ({imageUriHandler}) => {
 
 const styles = StyleSheet.create({
     container: {
-        
         justifyContent: 'center',
         alignItems: 'center',
     },

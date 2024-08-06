@@ -30,18 +30,42 @@ export default function Home({navigation}) {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [modalVisible]);
+  
+  async function retrieveUploadImage(uri){
+    try{
+    const response = await fetch(uri);
+    console.log(response);
+    if(!response.ok){
+      throw new Error('Image upload failed');
+    }
+    const blob = await response.blob();
+    const imageName = uri.substring(uri.lastIndexOf('/') + 1);
+    const imageRef = await ref(storage, `images/${imageName}`)
+    const uploadResult = await uploadBytesResumable(imageRef, blob);
+    console.log('upload result', uploadResult);
+    return uploadResult;
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
   
     
- function handleInputData(data){
+ async function handleInputData(data){
     console.log('call back', data);
+    let imageUri = '';
     const newGoal = {text: data, imageUri: data.imageUri, id: Math.random()};
-    //const newArray = [...goals, newGoal];
-    setGoals((currentGoals) => {
-      return [...currentGoals, newGoal];
-    });
+    
+    if(data.imageUri){
+
+      imageUri = await retrieveUploadImage(data.imageUri);
+    }
+    //console.log(imageUri)
+
     writeToDB(newGoal, 'goals');
     //setReceivedText(data);
+    console.log('new goal', newGoal);
     setModalVisible(false);
   }
   function handleCancel() {
