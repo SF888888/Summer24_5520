@@ -51,7 +51,6 @@ export default function Home({navigation}) {
     }
   }
   
-    
  async function handleInputData(data){
     console.log('call back', data);
     let imageUri = '';

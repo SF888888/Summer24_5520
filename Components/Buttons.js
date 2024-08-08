@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
 
 const Buttons = ({ title, onPress, style, textStyle }) => {

@@ -9,6 +9,7 @@ import Login from "./Components/Login";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./Firebase/firebaseSetup";
 import Profile from "./Components/Profile";
+import Map from "./Components/Map";
 import PressableButton from "./Components/PressableButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -61,6 +62,7 @@ const AppStack = (
         };
       }}
     />
+    <Stack.Screen name="Map" component={Map} />
     <Stack.Screen
       name="Profile"
       component={Profile}

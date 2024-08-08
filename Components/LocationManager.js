@@ -3,20 +3,30 @@ import React, { useState } from "react";
 import * as Location from "expo-location";
 import { mapsApiKey } from "@env";
 import { Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 const windowWidth = Dimensions.get("window").width;
+
 
 const LocationManager = () => {
   const [response, requestPermission] = Location.useForegroundPermissions();
   const [location, setLocation] = useState(null);
+  const navigation = useNavigation();
+
   async function verifyPermission() {
     console.log(response);
     if (response.granted) {
       return true;
     }
-    // what if i don't have permission? let's ask for permission
+
     const permissionResponse = await requestPermission();
     return permissionResponse.granted;
   }
+
+  function chooseLocationHandler() {
+    navigation.navigate("Map");
+  }
+
   async function locateUserHandler() {
     try {
       //verify permission before continuing
@@ -39,6 +49,7 @@ const LocationManager = () => {
   return (
     <View>
       <Button title="Find My Location" onPress={locateUserHandler} />
+      <Button title="Let me choose my location" onPress={chooseLocationHandler} />
       {location && (
         <Image
           source={{
@@ -50,6 +61,7 @@ const LocationManager = () => {
     </View>
   );
 };
+
 
 export default LocationManager;
 
