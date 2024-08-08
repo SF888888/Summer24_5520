@@ -1,9 +1,10 @@
 import { Alert, Button, StyleSheet, Image, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { mapsApiKey } from "@env";
 import { Dimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useRoute } from "@react-navigation/native";
+
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -12,6 +13,12 @@ const LocationManager = () => {
   const [response, requestPermission] = Location.useForegroundPermissions();
   const [location, setLocation] = useState(null);
   const navigation = useNavigation();
+  const route = useRoute();
+  useEffect(() => {
+    if (route.params) {
+      setLocation(route.params.selectedLocation);
+    }
+  }, [route.params]);
 
   async function verifyPermission() {
     console.log(response);

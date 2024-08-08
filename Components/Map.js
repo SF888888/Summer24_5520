@@ -1,6 +1,7 @@
 import { View, Text, Button } from 'react-native'
 import React from 'react'
 import MapView, {Marker} from "react-native-maps";
+import { useState } from 'react';
 
  const Map = ({navigation}) => {
     const[selectedLocation, setSelectedLocation] = useState(null);
