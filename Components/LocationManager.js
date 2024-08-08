@@ -4,6 +4,8 @@ import * as Location from "expo-location";
 import { mapsApiKey } from "@env";
 import { Dimensions } from "react-native";
 import { useNavigation,useRoute } from "@react-navigation/native";
+import { writeWithIdToDB, getDoc } from "../Firebase/firestoreHelper";
+import { auth } from "../Firebase/firebaseSetup";
 
 
 const windowWidth = Dimensions.get("window").width;
@@ -19,7 +21,15 @@ const LocationManager = () => {
       setLocation(route.params.selectedLocation);
     }
   }, [route.params]);
-
+  useEffect(() => {
+    async function getUserData() {
+      const userData = await getDoc("users", auth.currentUser.uid);
+      if(userData){
+        setLocation(userData.location);
+      }
+    }
+    getUserData
+  }, [location]);
   async function verifyPermission() {
     console.log(response);
     if (response.granted) {
@@ -53,10 +63,16 @@ const LocationManager = () => {
     }
   }
 
+  function saveLocationHandler() {
+    writeWithIdToDB({location}, "locations", auth.currentUser.uid);
+    navigation.navigate("Home");
+  }
+
   return (
     <View>
       <Button title="Find My Location" onPress={locateUserHandler} />
       <Button title="Let me choose my location" onPress={chooseLocationHandler} />
+
       {location && (
         <Image
           source={{
@@ -64,7 +80,9 @@ const LocationManager = () => {
           }}
           style={styles.image}
         />
+        
       )}
+      <Button title="Save my location" onPress={saveLocationHandler} /> 
     </View>
   );
 };

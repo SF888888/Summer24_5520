@@ -11,7 +11,7 @@ import { useState } from 'react';
     }
   return (
     <>
-    <MapView>
+    <MapView
       initialRegion={
         {
           latitude: 37.78825,
@@ -24,7 +24,7 @@ import { useState } from 'react';
                 lat: event.nativeEvent.coordinate.latitude,
                 lng: event.nativeEvent.coordinate.longitude
             })
-            console.log(event.nativeEvent)}}
+            console.log(event.nativeEvent)}}>
     <Marker coordinate={selectedLocation}></Marker>
     </MapView>
     <Button title="Confirm Loacation" onPress={confirmHandler}></Button>

@@ -1,4 +1,4 @@
-import{addDoc, doc, getDocs, deleteDoc, collection} from "firebase/firestore";
+import{addDoc, doc, getDocs, setDoc, deleteDoc, collection} from "firebase/firestore";
 import{database} from "./firebaseSetup";
 
 export async function writeToDB(data, collectionName){
@@ -9,6 +9,32 @@ try{
 catch(error){
     console.log('error writing to db', error);
 }
+}
+
+export async function writeWithIdToDB(data, collectionName, id){
+  console.log(database);
+try{
+  await setDoc(doc(database, collectionName, id),data);
+}
+catch(error){
+  console.log('error writing to db', error);
+}
+}
+
+export async function getDoc(collectionName, docId){
+    try{
+        const docRef = doc(database, collectionName, docId);
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists()){
+            return docSnap.data();
+        }
+        else{
+            console.log('no such document');
+        }
+    }
+    catch(error){
+        console.log('error getting document:', error);
+    }
 }
 
 export async function deletefromDB(docId, collectionName){
