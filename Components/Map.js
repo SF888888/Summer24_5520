@@ -1,4 +1,4 @@
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, styleSheet } from 'react-native'
 import React from 'react'
 import MapView, {Marker} from "react-native-maps";
 import { useState } from 'react';
@@ -19,13 +19,14 @@ import { useState } from 'react';
           latitudeDelta: 0.0922,
           longitudeDelta: 0.042
         }}
+        style={{flex:1}}
         onPress={(event) => {
             setSelectedLocation({
-                lat: event.nativeEvent.coordinate.latitude,
-                lng: event.nativeEvent.coordinate.longitude
+              latitude: event.nativeEvent.coordinate.latitude,
+              longitude: event.nativeEvent.coordinate.longitude
             })
             console.log(event.nativeEvent)}}>
-    <Marker coordinate={selectedLocation}></Marker>
+    <Marker coordinate={selectedLocation}/>
     </MapView>
     <Button title="Confirm Loacation" onPress={confirmHandler}></Button>
     </>
