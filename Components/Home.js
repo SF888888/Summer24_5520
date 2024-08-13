@@ -1,23 +1,93 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, FlatList, Alert } from 'react-native';
 import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
+import {writeToDB} from '../Firebase/firestoreHelper';
+import { auth, database } from '../Firebase/firebaseSetup';
+import PressableButton from './PressableButton';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import { verifyPermissions } from './NotificationManager';
 
-export default function Home() {
+export default function Home({navigation}) {
   const appName = 'Summer 2024 class';
   //const[receivedText, setReceivedText] = useState("");
   const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
-  function handleInputData(data){
-    console.log('call back', data);
-    const newGoal = {text: data, id: Math.random()};
-    //const newArray = [...goals, newGoal];
-    setGoals((currentGoals) => {
-      return [...currentGoals, newGoal];
+  
+  useEffect(() => {
+    async function getToken(){
+      const hasPermission = await verifyPermissions()
+      if(!hasPermission){
+        Alert.alert('You need to grant permission to send notifications');
+        return;
+      }
+      if (Platform.OS === "android") {
+        await Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+        });
+      }
+      const tokenData = await Notifications.getExpoPushTokenAsync({
+        projectId: Constants.expoConfig.extra.eas.projectId,
+       })
+    }
+    getToken();
+  }, []);
+  useEffect(() => { 
+    const unsubscribe = onSnapshot(query(collection(database, "goals"),
+      where("owner", "==", auth.currentUser.uid)
+    ), (querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const newArray = [];
+        querySnapshot.forEach((docSnapshot) => {
+          console.log(docSnapshot.id);
+          newArray.push({ ...docSnapshot.data(), id: docSnapshot.id });
+        });
+        setGoals(newArray);
+      }(error) => {
+        console.log('Error reading all docs:', error);
+      }
     });
+    return () => unsubscribe();
+  }, [modalVisible]);
+  
+  async function retrieveUploadImage(uri){
+    try{
+    const response = await fetch(uri);
+    console.log(response);
+    if(!response.ok){
+      throw new Error('Image upload failed');
+    }
+    const blob = await response.blob();
+    const imageName = uri.substring(uri.lastIndexOf('/') + 1);
+    const imageRef = await ref(storage, `images/${imageName}`)
+    const uploadResult = await uploadBytesResumable(imageRef, blob);
+    console.log('upload result', uploadResult);
+    return uploadResult;
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+  
+ async function handleInputData(data){
+    console.log('call back', data);
+    let imageUri = '';
+    const newGoal = {text: data, imageUri: data.imageUri, id: Math.random()};
+    
+    if(data.imageUri){
+
+      imageUri = await retrieveUploadImage(data.imageUri);
+    }
+    //console.log(imageUri)
+
+    writeToDB(newGoal, 'goals');
     //setReceivedText(data);
+    console.log('new goal', newGoal);
     setModalVisible(false);
   }
   function handleCancel() {
@@ -25,15 +95,12 @@ export default function Home() {
   }
   function deleteHandler(deletedId){
     console.log('goal deleted', deletedId);
-    setGoals((currentGoals) => {
-      return currentGoals.filter((goal) => goal.id !== deletedId);
-    })
+    deletefromDB(deletedId, collectionName);
   }
   function handlePressGoal(pressedGoal){
     console.log('goal pressed', pressedGoal);
-    navigation.navigate('GoalDetails');
-}
-    
+    navigation.navigate('GoalDetails', { goalObj: pressedGoal });
+ }
 
   return (
   <View style={styles.container}>
@@ -43,8 +110,12 @@ export default function Home() {
       <Header name={appName} >
         <Text></Text>
       </Header>
-      
-      <Button title="Add a goal" onPress={()=>setModalVisible(true)}/>
+      <PressableButton
+      pressedFunction={()=>{setModalVisible(true)}}
+      componentStyle={styles.buttonStyle}>
+        <Text>Add a Goal</Text>
+      </PressableButton>
+      {/*<Button title="Add a goal" onPress={()=>setModalVisible(true)}/>*/}
     </View>
     <View style={styles.bottomContainer}>
     {
@@ -90,5 +161,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#dcd',
     alignItems: 'center',
   },
+  buttonStyle:{
+    borderRadius:4,
+    padding: 10,
+  }
 
   });
