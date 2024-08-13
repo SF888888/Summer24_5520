@@ -3,7 +3,7 @@ import Home from "./Components/Home";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import GoalDetails from "./Components/GoalDetails";
-import { Button, Text } from "react-native";
+import { Linking } from "react-native";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -13,6 +13,8 @@ import Map from "./Components/Map";
 import PressableButton from "./Components/PressableButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import * as Notifications from 'expo-notifications';
+
 const Stack = createNativeStackNavigator();
 const AuthStack = (
   <>
@@ -88,6 +90,7 @@ const AppStack = (
 );
 export default function App() {
   const [isUserAuthenticated, setIsUseruthenticated] = useState(false);
+  const [notification, setNotification] = useState(false);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       //based on the user variable update the state variable
@@ -98,6 +101,21 @@ export default function App() {
       }
     });
   }, []);
+  useEffect(() => {
+     const subscription = Notifications.addNotificationResponseReceivedListener((notificationResponse)=>{
+      console.log("notification", notificationResponse.notification.request.content.data.uri);
+      Linking.openURL(notificationResponse.notification.request.content.data.uri);
+     })}
+    );
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
   return (
     <NavigationContainer>
       <Stack.Navigator

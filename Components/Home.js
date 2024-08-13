@@ -8,12 +8,23 @@ import {writeToDB} from '../Firebase/firestoreHelper';
 import { auth, database } from '../Firebase/firebaseSetup';
 import PressableButton from './PressableButton';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 
 export default function Home({navigation}) {
   const appName = 'Summer 2024 class';
   //const[receivedText, setReceivedText] = useState("");
   const[goals, setGoals] = useState([]);
   const[modalVisible, setModalVisible] = useState(false);
+  
+  useEffect(() => {
+    async function getToken(){
+      const tokenData = await Notifications.getExpoPushTokenAsync({
+        projectId: Constants.expoConfig.extra.eas.projectId,
+       })
+    }
+    getToken();
+  }, []);
   useEffect(() => { 
     const unsubscribe = onSnapshot(query(collection(database, "goals"),
       where("owner", "==", auth.currentUser.uid)
