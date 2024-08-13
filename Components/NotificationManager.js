@@ -2,7 +2,7 @@ import { View, Text, Button } from 'react-native'
 import React from 'react'
 import * as Notifications from 'expo-notifications';
 
-async function verifyPermissions() {
+export async function verifyPermissions() {
     try{
     const response = await Notifications.getPermissionsAsync()
     console.log("noti permision",response);

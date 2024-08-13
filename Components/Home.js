@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, Button, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, FlatList, Alert } from 'react-native';
 import Header from './Header';
 import Input from './Input';
 import GoalItem from './GoalItem';
@@ -10,6 +10,7 @@ import PressableButton from './PressableButton';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
+import { verifyPermissions } from './NotificationManager';
 
 export default function Home({navigation}) {
   const appName = 'Summer 2024 class';
@@ -19,6 +20,17 @@ export default function Home({navigation}) {
   
   useEffect(() => {
     async function getToken(){
+      const hasPermission = await verifyPermissions()
+      if(!hasPermission){
+        Alert.alert('You need to grant permission to send notifications');
+        return;
+      }
+      if (Platform.OS === "android") {
+        await Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+        });
+      }
       const tokenData = await Notifications.getExpoPushTokenAsync({
         projectId: Constants.expoConfig.extra.eas.projectId,
        })
