@@ -12,19 +12,23 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.sf888888.cs55201"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    
-    
     "plugins": [
       [
         "expo-image-picker",
@@ -35,16 +39,19 @@
       [
         "expo-notifications",
         {
-          "icon": "./local/assets/notification-icon.png",
+          "icon": "./local/assets/favicon.png",
           "color": "#ffffff",
           "defaultChannel": "default",
           "sounds": [
-            "./local/assets/notification-sound.wav",
-            "./local/assets/notification-sound-other.wav"
+           
           ]
         }
       ]
-    ]
-    
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a3466895-d8a3-4b5b-a1e8-9e75a208f66c"
+      }
+    }
   }
 }

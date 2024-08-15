@@ -5,7 +5,7 @@ import * as Notifications from 'expo-notifications';
 export async function verifyPermissions() {
     try{
     const response = await Notifications.getPermissionsAsync()
-    console.log("noti permision",response);
+    //console.log("noti permision",response);
     if (response.granted) {
         return true;
       }

@@ -25,15 +25,20 @@ export default function Home({navigation}) {
         Alert.alert('You need to grant permission to send notifications');
         return;
       }
+      /** 
       if (Platform.OS === "android") {
         await Notifications.setNotificationChannelAsync("default", {
           name: "default",
           importance: Notifications.AndroidImportance.MAX,
         });
       }
+      */
+      console.log("project id", Constants.expoConfig.extra.eas.projectId);
+
       const tokenData = await Notifications.getExpoPushTokenAsync({
         projectId: Constants.expoConfig.extra.eas.projectId,
-       })
+       });
+       console.log("token", tokenData);
     }
     getToken();
   }, []);
@@ -100,6 +105,19 @@ export default function Home({navigation}) {
   function handlePressGoal(pressedGoal){
     console.log('goal pressed', pressedGoal);
     navigation.navigate('GoalDetails', { goalObj: pressedGoal });
+ }
+ function pushNotificationHandler(){
+  fetch("https://exp.host/--/api/v2/push/send", {
+  method: "POST",
+  headers: {
+    "content-type": "application/json",
+  },
+  body: JSON.stringify({
+    to: <Push token of your device/>,
+    title: "Push Notification",
+    body: "This is a push notification",
+  })
+})
  }
 
   return (
