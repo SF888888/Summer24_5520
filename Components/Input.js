@@ -1,14 +1,19 @@
 import { View, Text, TextInput, Button, Modal, StyleSheet, Image } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
+import ImageManager from './ImageManager';
 
 const Input = ({ inputHandler, isModalVisible, onCancel }) => {
     const[text, setText] = useState('');
     const[isSubmitted, setIsSubmitted] = useState(false);
+    const[imageUri, setImageUri] = useState('');
     function handleConfirm(){
         console.log('user typed', text);
         //call the received prop callback fn
-        inputHandler(text);
+        inputHandler({text, imageUri});
         setText(''); 
+    }
+    function imageUriHandler(uri){
+        setImageUri(uri);
     }
     const inputRef = useRef(null);
     // Focus the TextInput when the component mounts
@@ -20,6 +25,7 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
     return (
         <Modal animationType="slide" visible ={isModalVisible}>
             <View style={styles.container}>
+
             <Image
                 style={styles.image}
                 source={{uri: 'https://cdn-icons-png.flaticon.com/512/2617/2617812.png'}}
@@ -41,7 +47,8 @@ const Input = ({ inputHandler, isModalVisible, onCancel }) => {
                 />
                 <Text>{text}</Text>
                 {isSubmitted && text && <Text>Thank you</Text>}
-                <View style={styles.buttonStyle}>
+                <ImageManager imageUriHandler={imageUriHandler}/>
+                 <View style={styles.buttonStyle}>
                     <Button title = "Confirm" onPress={handleConfirm} disabled={!text} />
                     <Button title = "Cancel" onPress={() => {onCancel(); setText('');}} />
                 </View>
